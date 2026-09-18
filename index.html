@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Futebol Art.</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--ink:#17212b;--muted:#66737f;--line:#dfe5ea;--accent:#1769e0;--accent2:#0f8b55;--danger:#c62828}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:#17212b;color:#fff;padding:18px max(18px,calc((100% - 1120px)/2));position:sticky;top:0;z-index:5}
+.brand{display:flex;justify-content:space-between;align-items:center}.brand h1{margin:0;font-size:22px}.brand span{font-size:12px;color:#cbd5df}
+nav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:68px;z-index:4}
+.navin{max-width:1120px;margin:auto;display:flex;overflow:auto}.navin button{white-space:nowrap;border:0;background:none;color:var(--muted);padding:13px 16px;font-weight:700;cursor:pointer}.navin button.active{color:var(--accent);border-bottom:3px solid var(--accent)}
+main{max-width:1120px;margin:auto;padding:18px}.page{display:none}.page.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:15px;box-shadow:0 2px 10px #00000009}
+h2{font-size:18px;margin:0 0 13px}.sub{color:var(--muted);font-size:13px;margin-top:-7px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.field label{display:block;font-size:12px;font-weight:800;color:#52606d;margin-bottom:5px}
+input,select,button{font:inherit;border-radius:9px;padding:10px;border:1px solid #d2d9e0}input,select{width:100%;background:#fff}
+button{cursor:pointer;background:var(--accent);color:#fff;border:0;font-weight:800}.secondary{background:#edf1f5;color:var(--ink)}.success{background:var(--accent2)}.danger{background:var(--danger)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.actions button{width:auto}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{padding:14px;border:1px solid var(--line);border-radius:11px}.stat b{font-size:24px;display:block}.stat small{color:var(--muted)}
+.player{display:grid;grid-template-columns:1.8fr .8fr .7fr .65fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #edf0f2}.player:last-child{border-bottom:0}.presence{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700}.presence input{width:auto}
+.badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 7px;border-radius:20px;background:#eef2f6;color:#4d5964}.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px}.team{border:1px solid var(--line);border-radius:13px;padding:13px}.team h3{margin:0 0 4px}.team .meta{font-size:12px;color:var(--muted);margin-bottom:8px}.team ol{margin:0;padding-left:22px}.team li{margin:6px 0}.swapMode{border-color:#b9dfc7;background:#f4fbf7}.swapMode .swapHint{display:flex}.swapHint{display:none;align-items:center;gap:8px;padding:10px 12px;margin:10px 0 12px;border:1px solid #b9dfc7;border-radius:10px;background:#edf8f1;color:#176b3e;font-size:13px;font-weight:700}.swapHint button{margin-left:auto;padding:7px 10px;background:#fff;color:#176b3e;border:1px solid #b9dfc7}.swapPlayer{cursor:pointer;border-radius:8px;padding:7px 8px;margin:2px 0;transition:.15s;background:transparent}.swapPlayer:hover{background:#f3f6f8}.swapPlayer:active{transform:scale(.99)}.swapPlayer.selected{background:#eaf3ff;outline:2px solid #1769e0}.swapPlayer .badge{margin-left:4px}.swapMode .team li{list-style-position:outside}.notice{padding:11px;border-radius:10px;font-size:13px;margin-bottom:12px}.ok{background:#edf8f1;border:1px solid #b9dfc7}.warn{background:#fff7e5;border:1px solid #ffd58c}
+.history-item{padding:14px 0;border-bottom:1px solid var(--line)}.history-item:last-child{border-bottom:0}.history-item b{display:block}.history-item small{color:var(--muted)}.searchBox{margin-bottom:12px}.searchBox label{display:block;font-size:12px;font-weight:800;color:#52606d;margin-bottom:5px}.searchBox input{padding:11px 12px}.history-composition{margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}.history-team{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fbfcfd}.history-team b{font-size:13px;margin-bottom:4px}.history-team div{font-size:12px;line-height:1.55}.clearHistory{margin-bottom:13px}
+.tableWrap{overflow-x:auto}.financeTable{width:100%;border-collapse:collapse;min-width:620px}.financeTable th,.financeTable td{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}.financeTable th{font-size:12px;color:var(--muted);text-transform:uppercase}.financeTable select,.financeTable input{padding:9px 10px}.statusSelect.paid{background:#e8f7ed;color:#147a3d;border-color:#a9d9b8;font-weight:800}.statusSelect.unpaid{background:#fdecec;color:#b42323;border-color:#efb2b2;font-weight:800}.moneyInput{max-width:150px}
+.financeSummary{display:flex;gap:10px;margin:12px 0 14px}.financeBubble{padding:10px 14px;border-radius:12px;border:1px solid #ddd;min-width:145px}.financeBubble span{display:block;font-size:11px;font-weight:700;text-transform:uppercase;opacity:.75}.financeBubble strong{display:block;font-size:17px;margin-top:3px}.paidBubble{background:#e8f7ed;border-color:#a9d9b8}.unpaidBubble{background:#fdecec;border-color:#efb2b2}
+.financeActions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 14px}.financeActions button{width:auto}
+.financeFilters th{padding-top:4px}.financeFilters input,.financeFilters select{font-size:12px;padding:7px 8px}
+.presenceTag{display:inline-block;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:800}
+.presenceTag.yes{background:#e8f7ed;color:#147a3d;border:1px solid #a9d9b8}.presenceTag.no{background:#fdecec;color:#b42323;border:1px solid #efb2b2}
+.empty{text-align:center;color:var(--muted);padding:25px}.hidden{display:none}.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}.modal.hidden{display:none}.modalBox{background:#fff;border-radius:18px;padding:22px;max-width:430px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25)}.modalBox h3{margin:0 0 8px}.modalBox p{color:var(--muted);font-size:14px;line-height:1.45;margin:0 0 16px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.player{grid-template-columns:1fr 1fr}.player button{grid-column:1/-1}.navin button{padding:12px 11px}}
+
+.authScreen{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#f8faf9 0%,#fff 55%,#f2f6f4 100%);display:flex;align-items:center;justify-content:center;padding:22px;overflow:auto}
+.authScreen.hidden{display:none}
+.authBackdrop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.authCircle{position:absolute;border-radius:50%;border:1px solid rgba(20,105,67,.12)}
+.authCircle.c1{width:520px;height:520px;left:-330px;top:-120px;background:rgba(11,92,60,.04);border:70px solid rgba(11,92,60,.045)}
+.authCircle.c2{width:420px;height:420px;right:-260px;bottom:-180px;border:3px solid rgba(92,190,34,.24)}
+.authCircle.c3{width:220px;height:220px;right:-130px;bottom:-80px;border:1px solid rgba(92,190,34,.14)}
+.authMini{position:absolute;right:7%;top:7%;font-size:12px;letter-spacing:3px;color:#718078;font-weight:700}.authMini:after{content:"";display:block;width:54px;height:2px;background:#55b92b;margin-top:8px;margin-left:auto}
+.authCard{position:relative;width:min(440px,100%);background:#fff;border:1px solid #e6ece8;border-radius:24px;padding:28px 30px;box-shadow:0 24px 70px rgba(20,48,36,.13);text-align:center}
+.authLogo{width:min(250px,70%);height:auto;display:block;margin:0 auto 10px}
+.authCard h2{font-size:25px;margin:8px 0 8px;color:#17212b}.authLead{color:#66737f;font-size:14px;line-height:1.5;margin:0 auto 20px;max-width:360px}
+.authForm{text-align:left}.authField{margin-bottom:12px}.authField label{display:block;font-size:12px;font-weight:800;color:#52606d;margin-bottom:5px}.authField input{height:48px;border-radius:12px;border:1px solid #dce4df;padding:0 13px}.authField input:focus{outline:none;border-color:#1b8054;box-shadow:0 0 0 3px rgba(27,128,84,.10)}
+.authPassword{position:relative}.authPassword input{padding-right:45px}.authEye{position:absolute;right:7px;top:6px;width:36px;height:36px;padding:0;background:transparent!important;color:#65736d!important;border:0!important;font-size:17px}
+.authRow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:4px 0 16px;font-size:12px;color:#5d6964}.authRemember{display:flex;align-items:center;gap:6px;font-weight:700}.authRemember input{width:auto}.authLink{background:none!important;color:#177b4e!important;padding:0!important;border:0!important;font-weight:800!important}
+.authPrimary{width:100%;height:48px;border-radius:12px;background:#075b3c!important;box-shadow:0 7px 18px rgba(7,91,60,.18)}
+.authDivider{display:flex;align-items:center;gap:10px;color:#9aa49f;font-size:12px;margin:17px 0}.authDivider:before,.authDivider:after{content:"";height:1px;background:#e2e7e4;flex:1}
+.authSecondary{width:100%;height:46px;border-radius:12px;background:#fff!important;color:#075b3c!important;border:1px solid #16744e!important}.authFoot{margin:18px 0 0;color:#68736e;font-size:12px}.authBrand{color:#075b3c;font-weight:800}.authError{display:none;background:#fff0f0;border:1px solid #f0c1c1;color:#a21d1d;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.4;margin-bottom:12px;text-align:left}.authError.show{display:block}.authSuccess{display:none;background:#edf8f1;border:1px solid #b9dfc7;color:#176b3e;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.4;margin-bottom:12px;text-align:left}.authSuccess.show{display:block}
+.authUser{display:flex;align-items:center;gap:8px;font-size:12px;color:#d9e2dd}.authUser button{padding:7px 10px;border-radius:8px;background:#fff;color:#075b3c;border:0;font-weight:800}.cloudDot{font-size:12px}.cloudDot.ok{background:none;border:0;color:#bfe5cf;padding:0;margin:0}.migrationBox{max-width:470px}.migrationBox .actions{justify-content:flex-end}.migrationBox button{width:auto}
+#appShell.appLocked{display:none}
+@media(max-width:600px){.authScreen{padding:12px}.authCard{padding:24px 18px;border-radius:20px}.authMini{display:none}.authCircle.c1{width:380px;height:380px;left:-300px;top:-170px}.authCircle.c2{width:300px;height:300px;right:-220px;bottom:-150px}.authLogo{width:230px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div id="authScreen" class="authScreen">
+  <div class="authBackdrop"><div class="authCircle c1"></div><div class="authCircle c2"></div><div class="authCircle c3"></div><div class="authMini">ORGANIZE. JOGUE. EVOLUA.</div></div>
+  <div id="authCard" class="authCard">
+    <img class="authLogo" src="data:image/webp;base64,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" alt="Futebol Art.">
+    <div id="authLoginView">
+      <h2>Bem-vindo ao Futebol Art.</h2>
+      <p class="authLead">Faça seu login para continuar e ter seus dados sempre com você, em qualquer dispositivo.</p>
+      <div id="authError" class="authError"></div><div id="authSuccess" class="authSuccess"></div>
+      <div class="authForm">
+        <div class="authField"><label>E-mail</label><input id="authEmail" type="email" autocomplete="email" placeholder="Seu e-mail"></div>
+        <div class="authField authPassword"><label>Senha</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="Sua senha"><button type="button" class="authEye" onclick="toggleAuthPassword()">◉</button></div>
+        <div class="authRow"><label class="authRemember"><input id="authRemember" type="checkbox" checked> Manter-me conectado</label><button type="button" class="authLink" onclick="showAuthView('forgot')">Esqueci minha senha</button></div>
+        <button type="button" class="authPrimary" onclick="signIn()">Entrar&nbsp;&nbsp;→</button>
+      </div>
+      <div class="authDivider"><span>ou</span></div>
+      <button type="button" class="authSecondary" onclick="showAuthView('signup')">Criar uma conta</button>
+    </div>
+    <div id="authSignupView" style="display:none">
+      <h2>Criar sua conta</h2><p class="authLead">Crie sua conta para acessar o Futebol Art. de qualquer dispositivo.</p>
+      <div id="signupError" class="authError"></div><div id="signupSuccess" class="authSuccess"></div>
+      <div class="authForm">
+        <div class="authField"><label>Nome</label><input id="signupName" type="text" autocomplete="name" placeholder="Seu nome"></div>
+        <div class="authField"><label>E-mail</label><input id="signupEmail" type="email" autocomplete="email" placeholder="Seu e-mail"></div>
+        <div class="authField"><label>Senha</label><input id="signupPassword" type="password" autocomplete="new-password" placeholder="Mínimo de 6 caracteres"></div>
+        <button type="button" class="authPrimary" onclick="signUp()">Criar conta</button>
+      </div>
+      <div class="authDivider"><span>já tenho uma conta</span></div>
+      <button type="button" class="authSecondary" onclick="showAuthView('login')">Voltar para entrar</button>
+    </div>
+    <div id="authForgotView" style="display:none">
+      <h2>Recuperar senha</h2><p class="authLead">Digite seu e-mail e enviaremos um link para criar uma nova senha.</p>
+      <div id="forgotError" class="authError"></div><div id="forgotSuccess" class="authSuccess"></div>
+      <div class="authForm"><div class="authField"><label>E-mail</label><input id="forgotEmail" type="email" autocomplete="email" placeholder="Seu e-mail"></div><button type="button" class="authPrimary" onclick="sendReset()">Enviar link</button></div>
+      <div class="authDivider"><span></span></div><button type="button" class="authSecondary" onclick="showAuthView('login')">Voltar para entrar</button>
+    </div>
+    <div id="authRecoveryView" style="display:none">
+      <h2>Nova senha</h2><p class="authLead">Defina uma nova senha para sua conta do Futebol Art.</p>
+      <div id="recoveryError" class="authError"></div><div class="authForm"><div class="authField"><label>Nova senha</label><input id="recoveryPassword" type="password" autocomplete="new-password" placeholder="Nova senha"></div><button type="button" class="authPrimary" onclick="updatePassword()">Salvar nova senha</button></div>
+    </div>
+    <p class="authFoot"><span class="authBrand">Futebol Art.</span> &nbsp;•&nbsp; Futebol também é arte.</p>
+  </div>
+</div>
+<div id="appShell" class="appLocked">
+
+<header><div class="brand"><div><h1>⚽ Futebol Art.</h1><span>Gestão de jogadores e sorteio equilibrado</span></div><div class="authUser"><span id="cloudStatus" class="cloudDot ok">● sincronizado</span><span id="authUserEmail"></span><button onclick="signOut()">Sair</button></div></div></header>
+<nav><div class="navin">
+<button class="tab active" data-page="inicio">Início</button><button class="tab" data-page="jogadores">Lista de Jogadores</button><button class="tab" data-page="partida">Nova Partida</button><button class="tab" data-page="resultado">Resultado</button><button class="tab" data-page="historico">Histórico</button><button class="tab" data-page="financeiro">Financeiro</button>
+</div></nav>
+<main>
+<section id="inicio" class="page active">
+<div class="card"><h2>Fala, parceiro! 👊</h2><div class="sub">Bem Vindo ao FutebolArt.</div>
+<div class="stats"><div class="stat"><b id="sPlayers">0</b><small>Jogadores cadastrados</small></div><div class="stat"><b id="sActive">0</b><small>Ativos</small></div><div class="stat"><b id="sGames">0</b><small>Partidas salvas</small></div><div class="stat"><b id="sPresent">0</b><small>Presentes agora</small></div></div>
+<div class="actions"><button onclick="go('jogadores')">📋 Lista de Jogadores</button><button class="success" onclick="go('partida')">⚽ Nova Partida</button></div></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">Regras do sorteio</h2><div class="sub">Escolha o tipo de futebol da partida.</div></div><div class="field" style="min-width:190px;margin:0"><label for="sportType">Tipo de futebol</label><select id="sportType" onchange="changeSportType(this.value)"><option value="society">Society</option><option value="futsal">Futsal</option><option value="fut7">FUT7</option><option value="campo">Campo</option></select></div></div><ul><li>A quantidade de jogadores por time é definida na partida.</li><li>As posições e o equilíbrio do sorteio seguem o tipo de futebol selecionado.</li><li>O sistema procura equilibrar nível e posições sem eliminar a aleatoriedade.</li><li>A lista pode ter mais de 60 jogadores; uma partida pode usar até 60.</li></ul></div>
+</section>
+
+<section id="jogadores" class="page">
+<div class="card"><h2>Lista de Jogadores</h2><div class="sub">Cadastre uma vez e use a lista em todas as quintas.</div>
+<div class="grid"><div class="field"><label>Nome</label><input id="newName" placeholder="Nome do jogador"></div><div class="field"><label>Posição</label><select id="newPos"><option>DEF</option><option>MEI</option><option>ATQ</option></select></div><div class="field"><label>Nível 0–5</label><input id="newRating" type="number" min="0" max="5" step=".1" value="3"></div></div>
+<div class="actions"><button onclick="add()">Adicionar jogador</button><button class="secondary" onclick="importPlayers()">📥 Importar</button><button class="secondary" onclick="exportPlayers()">📤 Exportar</button><button class="danger" onclick="wipe()">Apagar lista</button></div>
+<input id="importFile" type="file" accept=".csv,text/csv" style="display:none" onchange="handleImportFile(event)"></div>
+<div class="card"><div class="searchBox"><label for="playerSearch">Buscar jogador</label><input id="playerSearch" type="search" placeholder="Digite um nome para buscar..." oninput="renderPlayers()"></div><div id="playerList"></div></div>
+</section>
+
+<section id="partida" class="page">
+<div class="card"><h2>Nova Partida</h2><div class="sub">Defina quem está presente e como a rodada será montada.</div>
+<div class="grid"><div class="field"><label>Data</label><input id="gameDate" type="date"></div><div class="field"><label>Nº de times</label><input id="teamN" type="number" min="1" max="10" placeholder="Ex.: 4"></div><div class="field"><label>Jogadores por time</label><input id="teamSize" type="number" min="1" max="20" placeholder="Ex.: 6"></div><div class="field"><label>Reservas</label><input id="reserveN" type="number" min="0" max="59" value="0"></div></div>
+<div id="setupInfo" class="notice warn" style="margin-top:13px"></div>
+<div class="actions"><button class="success" onclick="draw()">🎲 Sortear Times</button><button class="secondary" onclick="selectAll(true)">Marcar todos</button><button class="secondary" onclick="selectAll(false)">Desmarcar todos</button></div>
+</div>
+<div class="card"><h2>Presença</h2><div class="searchBox"><label for="attendanceSearch">Buscar jogador</label><input id="attendanceSearch" type="search" placeholder="Digite um nome para buscar..." oninput="renderAttendance()"></div><div id="attendance"></div></div>
+</section>
+
+<section id="resultado" class="page">
+<div class="card" id="resultCard"><h2>Resultado do Sorteio</h2><div id="resultMsg" class="notice warn">Faça um sorteio em “Nova Partida”.</div><div id="swapHint" class="swapHint"><span id="swapHintText">🔄 Modo substituir ativo: selecione o jogador inicial e depois o jogador final.</span><button class="secondary" onclick="cancelSwap()">Cancelar</button></div><div id="teams" class="teams"></div>
+<div class="actions" id="resultActions" style="display:none"><button onclick="draw()">🔄 Sortear novamente</button><button class="secondary" onclick="toggleSwap()">🔄 Substituir jogador</button><button class="success" onclick="saveGame()">💾 Salvar partida</button><button onclick="openShare()">📤 Compartilhar resultado</button></div></div>
+<div id="shareModal" class="modal hidden"><div class="modalBox"><h3>Compartilhar resultado</h3><p>Escolha o formato. Depois o iPhone abrirá a tela de compartilhamento para você escolher WhatsApp ou outro aplicativo.</p><div class="actions"><button onclick="shareResult('image')">🖼️ Imagem</button><button onclick="shareResult('pdf')">📄 PDF</button><button class="secondary" onclick="closeShare()">Cancelar</button></div></div></div>
+</section>
+
+<section id="historico" class="page">
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0">Histórico</h2><button class="danger" onclick="clearHistory()">🗑️ Limpar Histórico</button></div><div id="history" style="margin-top:12px"></div></div>
+</section>
+<section id="financeiro" class="page">
+<div class="card"><h2>Financeiro</h2><div class="sub">Controle mensal ou avulso, presença, pagamento e valor de cada jogador cadastrado.</div>
+<div class="financeSummary">
+  <div class="financeBubble paidBubble"><span>Valor pago</span><strong id="financeTotalPaid">R$ 0,00</strong></div>
+  <div class="financeBubble unpaidBubble"><span>Valor não pago</span><strong id="financeTotalUnpaid">R$ 0,00</strong></div>
+</div>
+<div class="financeActions"><button class="danger" onclick="resetFinanceData()">🔄 Resetar dados inseridos</button><button onclick="shareFinanceHistory()">📤 Compartilhar histórico filtrado</button></div>
+<div class="tableWrap"><table class="financeTable"><thead>
+<tr>
+<th>Jogador</th><th>Presença</th><th>Tipo</th><th>Status</th><th>Valor pago</th><th>Data de Pagamento</th>
+</tr>
+<tr class="financeFilters">
+<th><input id="financePlayerFilter" type="search" placeholder="Buscar..." oninput="renderFinance()"></th>
+<th><select id="financePresenceFilter" onchange="renderFinance()"><option value="">Todos</option><option value="Presente">Presente</option><option value="Não presente">Não presente</option></select></th>
+<th><select id="financeTypeFilter" onchange="renderFinance()"><option value="">Todos</option><option>Mensal</option><option>Avulso</option></select></th>
+<th><select id="financeStatusFilter" onchange="renderFinance()"><option value="">Todos</option><option>Pago</option><option>Não pago</option></select></th>
+<th><input id="financeValueFilter" type="search" placeholder="Filtrar valor" oninput="renderFinance()"></th><th><input id="financeDateFilter" type="date" onchange="renderFinance()"></th>
+</tr>
+</thead><tbody id="financeList"></tbody></table></div></div>
+</section>
+</main>
+
+<script>
+
+const SUPABASE_URL='https://cdkoppmnminqcjekzanh.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_kmWbd_0uUiKCkvpYZbzbqw_MagVgO8Q';
+const SITE_URL='https://futebolart.github.io';
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+let currentUser=null, cloudHydrated=false, cloudSyncTimer=null, cloudSyncBusy=false, cloudSyncPending=false;
+let swapMode=false, swapSelection=null;
+
+function authMsg(id,text,success=false){const el=$(id);if(!el)return;el.textContent=text;el.classList.toggle('show',!!text);if(success)el.classList.add('show');}
+function clearAuthMessages(){['authError','authSuccess','signupError','signupSuccess','forgotError','forgotSuccess','recoveryError'].forEach(id=>authMsg(id,''));}
+function showAuthView(view){
+  ['authLoginView','authSignupView','authForgotView','authRecoveryView'].forEach(id=>$(id).style.display='none');
+  clearAuthMessages();
+  const map={login:'authLoginView',signup:'authSignupView',forgot:'authForgotView',recovery:'authRecoveryView'};
+  $(map[view]||map.login).style.display='block';
+  if(view==='forgot' && $('forgotEmail') && $('authEmail')?.value) $('forgotEmail').value=$('authEmail').value;
+}
+function toggleAuthPassword(){const i=$('authPassword');i.type=i.type==='password'?'text':'password';}
+function authErrorMessage(e){return e?.message||'Não foi possível concluir a operação. Tente novamente.';}
+
+async function signIn(){
+  clearAuthMessages();
+  const email=$('authEmail').value.trim(),password=$('authPassword').value;
+  if(!email||!password)return authMsg('authError','Informe seu e-mail e sua senha.');
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error)return authMsg('authError',authErrorMessage(error));
+  // A mudança de sessão é tratada pelo onAuthStateChange abaixo.
+}
+
+async function signUp(){
+  clearAuthMessages();
+  const name=$('signupName').value.trim(),email=$('signupEmail').value.trim(),password=$('signupPassword').value;
+  if(!name||!email||!password)return authMsg('signupError','Preencha nome, e-mail e senha.');
+  if(password.length<6)return authMsg('signupError','A senha precisa ter pelo menos 6 caracteres.');
+  const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{name},emailRedirectTo:SITE_URL}});
+  if(error)return authMsg('signupError',authErrorMessage(error));
+  if(data?.session) { /* o evento SIGNED_IN continuará o fluxo */ }
+  else authMsg('signupSuccess','Conta criada! Verifique seu e-mail para confirmar a conta e depois volte ao Futebol Art. para entrar.',true);
+}
+
+async function sendReset(){
+  clearAuthMessages();
+  const email=$('forgotEmail').value.trim();
+  if(!email)return authMsg('forgotError','Informe seu e-mail.');
+  const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:SITE_URL});
+  if(error)return authMsg('forgotError',authErrorMessage(error));
+  authMsg('forgotSuccess','Link enviado! Confira seu e-mail e abra o link para definir uma nova senha.',true);
+}
+
+async function updatePassword(){
+  clearAuthMessages();
+  const password=$('recoveryPassword').value;
+  if(password.length<6)return authMsg('recoveryError','A senha precisa ter pelo menos 6 caracteres.');
+  const {error}=await supabaseClient.auth.updateUser({password});
+  if(error)return authMsg('recoveryError',authErrorMessage(error));
+  alert('Senha atualizada com sucesso!');
+  showAuthView('login');
+}
+
+async function signOut(){
+  await supabaseClient.auth.signOut();
+  currentUser=null;cloudHydrated=false;
+  $('appShell').classList.add('appLocked');$('authScreen').classList.remove('hidden');showAuthView('login');
+}
+
+function hasLocalData(){return players.length>0||history.length>0||Object.keys(finance).length>0||!!localStorage.getItem(SPORTKEY)||!!localStorage.getItem(GAMECFGKEY);}
+function setCloudStatus(text,good=true){const el=$('cloudStatus');if(el){el.textContent='● '+text;el.style.color=good?'#bfe5cf':'#ffd58c';}}
+
+async function fetchCloudState(){
+  const uid=currentUser.id;
+  const [pr,mr,fr,sr]=await Promise.all([
+    supabaseClient.from('players').select('*').eq('user_id',uid).order('name'),
+    supabaseClient.from('matches').select('*').eq('user_id',uid).order('created_at',{ascending:false}),
+    supabaseClient.from('finance').select('*').eq('user_id',uid),
+    supabaseClient.from('app_settings').select('*').eq('user_id',uid).maybeSingle()
+  ]);
+  const err=[pr,mr,fr,sr].find(x=>x.error);if(err)throw err.error;
+  return {players:pr.data||[],matches:mr.data||[],finance:fr.data||[],settings:sr.data||null};
+}
+
+function cloudHasData(c){return c.players.length>0||c.matches.length>0||c.finance.length>0||!!c.settings;}
+function localStateSignature(){
+  const cfg=JSON.parse(localStorage.getItem(GAMECFGKEY)||'{}');
+  return JSON.stringify({
+    players:players.map(p=>({id:p.id,name:p.name,pos:p.pos,rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false})).sort((a,b)=>a.id.localeCompare(b.id)),
+    history:history.map(h=>({id:h.id,date:h.date,teams:h.teams||[],reserves:h.reserves||[],config:h.config||{}})).sort((a,b)=>a.id.localeCompare(b.id)),
+    finance:Object.keys(finance).sort().map(id=>({id,...(finance[id]||{})})),
+    sport:sportType,
+    cfg:{teamN:cfg.teamN??'',teamSize:cfg.teamSize??'',reserveN:cfg.reserveN??0}
+  });
+}
+function cloudStateSignature(c){
+  const cloudPlayers=(c.players||[]).map(p=>({id:p.id,name:p.name,pos:p.position,rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false})).sort((a,b)=>a.id.localeCompare(b.id));
+  const cloudHistory=(c.matches||[]).map(m=>{const r=m.result||{};return {id:m.id,date:m.match_date,teams:Array.isArray(r.teams)?r.teams:[],reserves:Array.isArray(r.reserves)?r.reserves:[],config:r.config||{n:m.team_count,size:m.team_size,r:m.reserve_count,sport:m.sport_type}}}).sort((a,b)=>a.id.localeCompare(b.id));
+  const cloudFinance=(c.finance||[]).map(f=>({id:f.player_id,type:f.payment_type||'Mensal',status:f.status||'Não pago',value:f.amount===null||f.amount===undefined?'':String(f.amount),paymentDate:f.payment_date||''})).sort((a,b)=>a.id.localeCompare(b.id));
+  return JSON.stringify({players:cloudPlayers,history:cloudHistory,finance:cloudFinance,sport:c.settings?.sport_type||'society',cfg:{teamN:c.settings?.team_count??'',teamSize:c.settings?.team_size??'',reserveN:c.settings?.reserve_count??0}});
+}
+function showDataConflict(){
+  return new Promise(resolve=>{
+    const m=$('migrationModal');
+    m.querySelector('h3').textContent='Encontramos dados diferentes neste aparelho ⚠️';
+    m.querySelector('p').textContent='Os dados deste aparelho são diferentes dos dados salvos na nuvem. Para não perder informações, escolha qual versão deve ficar como principal.';
+    const actions=m.querySelector('.actions');
+    actions.innerHTML='<button class="success" onclick="resolveDataConflict(\'device\')">📱 Usar dados deste aparelho</button><button onclick="resolveDataConflict(\'cloud\')">☁️ Usar dados da nuvem</button>';
+    m.classList.remove('hidden');
+    window.__migrationResolve=resolve;
+  });
+}
+function resolveDataConflict(choice){
+  $('migrationModal').classList.add('hidden');
+  const r=window.__migrationResolve;window.__migrationResolve=null;
+  if(r)r(choice);
+}
+function applyCloudState(c){
+  players=(c.players||[]).map(p=>({id:p.id,name:p.name,pos:normalizePosition(p.position,sportType),rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false}));
+  sportType=c.settings?.sport_type||sportType||'society';
+  players=players.map(p=>({...p,pos:normalizePosition(p.pos,sportType)}));
+  history=(c.matches||[]).map(m=>{
+    const r=m.result||{};
+    return {id:m.id,date:m.match_date,teams:Array.isArray(r.teams)?r.teams:[],reserves:Array.isArray(r.reserves)?r.reserves:[],config:r.config||{n:m.team_count,size:m.team_size,r:m.reserve_count,sport:m.sport_type}};
+  });
+  finance={};(c.finance||[]).forEach(f=>{finance[f.player_id]={type:f.payment_type||'Mensal',status:f.status||'Não pago',value:f.amount===null||f.amount===undefined?'':String(f.amount),paymentDate:f.payment_date||''};});
+  if(c.settings)localStorage.setItem(GAMECFGKEY,JSON.stringify({teamN:c.settings.team_count??'',teamSize:c.settings.team_size??'',reserveN:c.settings.reserve_count??0}));
+  localStorage.setItem(KEY,JSON.stringify(players));localStorage.setItem(HKEY,JSON.stringify(history));localStorage.setItem(SPORTKEY,sportType);localStorage.setItem(FINKEY,JSON.stringify(finance));
+  loadGameConfig();renderSportType();renderAll();
+}
+
+async function syncCloud(){
+  if(!currentUser||!cloudHydrated){return;}
+  if(cloudSyncBusy){cloudSyncPending=true;return;}
+  cloudSyncBusy=true;
+  cloudSyncPending=false;
+  setCloudStatus('sincronizando…',false);
+  try{
+    const uid=currentUser.id;
+    const playerRows=players.map(p=>({id:p.id,user_id:uid,name:p.name,position:p.pos,rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false}));
+    const {data:oldPlayers,error:oldErr}=await supabaseClient.from('players').select('id').eq('user_id',uid);
+    if(oldErr)throw oldErr;
+    const ids=new Set(playerRows.map(p=>p.id));
+    const stale=(oldPlayers||[]).map(x=>x.id).filter(id=>!ids.has(id));
+    if(stale.length){const {error}=await supabaseClient.from('players').delete().in('id',stale).eq('user_id',uid);if(error)throw error;}
+    if(playerRows.length){const {error}=await supabaseClient.from('players').upsert(playerRows,{onConflict:'id'});if(error)throw error;}
+
+    const financeRows=players.map(p=>{
+      const f=finance[p.id]||{type:'Mensal',status:'Não pago',value:'',paymentDate:''};
+      const raw=String(f.value||'').trim().replace(/[R$\s]/g,'').replace(/\./g,'').replace(',','.');
+      const amount=raw!==''&&Number.isFinite(Number(raw))?Number(raw):0;
+      return {user_id:uid,player_id:p.id,payment_type:f.type||'Mensal',status:f.status||'Não pago',amount,payment_date:f.paymentDate||null};
+    });
+    if(financeRows.length){const {error}=await supabaseClient.from('finance').upsert(financeRows,{onConflict:'user_id,player_id'});if(error)throw error;}
+    else {const {error}=await supabaseClient.from('finance').delete().eq('user_id',uid);if(error)throw error;}
+
+    const {data:oldMatches,error:oldMatchesErr}=await supabaseClient.from('matches').select('id').eq('user_id',uid);if(oldMatchesErr)throw oldMatchesErr;
+    const matchIds=new Set(history.map(h=>h.id));
+    const staleMatches=(oldMatches||[]).map(x=>x.id).filter(id=>!matchIds.has(id));
+    if(staleMatches.length){const {error}=await supabaseClient.from('matches').delete().in('id',staleMatches).eq('user_id',uid);if(error)throw error;}
+    if(history.length){
+      const rows=history.map(h=>({id:h.id,user_id:uid,match_date:h.date,sport_type:h.config?.sport||sportType,team_count:Number(h.config?.n)||1,team_size:Number(h.config?.size)||1,reserve_count:Number(h.config?.r)||0,result:{teams:h.teams||[],reserves:h.reserves||[],config:h.config||{}}}));
+      const {error}=await supabaseClient.from('matches').upsert(rows,{onConflict:'id'});if(error)throw error;
+    }
+
+    const cfg={user_id:uid,sport_type:sportType,team_count:Number($('teamN').value)||null,team_size:Number($('teamSize').value)||null,reserve_count:Number($('reserveN').value)||0};
+    const {error:se}=await supabaseClient.from('app_settings').upsert(cfg,{onConflict:'user_id'});if(se)throw se;
+    setCloudStatus('sincronizado',true);
+  }catch(e){
+    console.error('Futebol Art. cloud sync error:',e);
+    setCloudStatus('erro ao sincronizar — tentando novamente',false);
+    cloudSyncPending=true;
+    clearTimeout(cloudSyncTimer);
+    cloudSyncTimer=setTimeout(()=>syncCloud(),2000);
+  }finally{
+    cloudSyncBusy=false;
+    if(cloudSyncPending){
+      clearTimeout(cloudSyncTimer);
+      cloudSyncTimer=setTimeout(()=>syncCloud(),250);
+    }
+  }
+}
+async function syncPlayerNow(id){
+  if(!currentUser||!cloudHydrated)return;
+  const p=players.find(x=>x.id===id);
+  if(!p)return;
+  try{
+    setCloudStatus('salvando…',false);
+    const row={id:p.id,user_id:currentUser.id,name:p.name,position:p.pos,rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false};
+    const {error}=await supabaseClient.from('players').upsert(row,{onConflict:'id'});
+    if(error)throw error;
+    const {data:check,error:checkError}=await supabaseClient.from('players').select('id,name,position,rating,active,present').eq('id',p.id).eq('user_id',currentUser.id).maybeSingle();
+    if(checkError)throw checkError;
+    if(!check||check.position!==p.pos||String(check.name)!==String(p.name)||Number(check.rating)!==Number(p.rating)||check.active!==p.active||check.present!==p.present){
+      throw new Error('A nuvem não confirmou a mesma informação enviada.');
+    }
+    setCloudStatus('sincronizado',true);
+  }catch(e){
+    console.error('Futebol Art. player sync error:',e);
+    setCloudStatus('erro ao salvar — toque/recarregue e tente novamente',false);
+    cloudSyncPending=true;
+    clearTimeout(cloudSyncTimer);
+    cloudSyncTimer=setTimeout(()=>syncCloud(),1000);
+  }
+}
+
+function queueCloudSync(){
+  if(!currentUser||!cloudHydrated)return;
+  cloudSyncPending=true;
+  clearTimeout(cloudSyncTimer);
+  cloudSyncTimer=setTimeout(()=>syncCloud(),80);
+}
+
+function showMigration(){return new Promise(resolve=>{const m=$('migrationModal');m.classList.remove('hidden');window.__migrationResolve=resolve;});}
+async function importLocalToCloud(){ $('migrationModal').classList.add('hidden'); const r=window.__migrationResolve;window.__migrationResolve=null;cloudHydrated=true;await syncCloud();if(r)r('import'); }
+function startCloudEmpty(){ $('migrationModal').classList.add('hidden');players=[];history=[];finance={};localStorage.removeItem(KEY);localStorage.removeItem(HKEY);localStorage.removeItem(FINKEY);cloudHydrated=true;renderAll();const r=window.__migrationResolve;window.__migrationResolve=null;if(r)r('empty'); }
+
+async function handleSignedIn(session){
+  currentUser=session.user;
+  $('authUserEmail').textContent=currentUser.email||'';
+  $('authScreen').classList.add('hidden');
+  $('appShell').classList.remove('appLocked');
+  setCloudStatus('carregando…',false);
+  try{
+    const cloud=await fetchCloudState();
+
+    // A nuvem é a fonte oficial dos dados. Não perguntamos mais entre aparelho e nuvem.
+    // Se já existir conteúdo na nuvem, ele sempre é carregado no aparelho.
+    if(cloudHasData(cloud)){
+      cloudHydrated=false;
+      applyCloudState(cloud);
+      cloudHydrated=true;
+      setCloudStatus('sincronizado',true);
+    }else if(hasLocalData()){
+      // Primeira sincronização: se a conta ainda estiver vazia, preservamos a base local
+      // automaticamente e enviamos para a nuvem, sem abrir o modal de conflito.
+      cloudHydrated=true;
+      await syncCloud();
+    }else{
+      cloudHydrated=true;
+      renderAll();
+      setCloudStatus('sincronizado',true);
+    }
+  }catch(e){
+    console.error('Futebol Art. cloud load error:',e);
+    cloudHydrated=false;
+    setCloudStatus('erro ao carregar a nuvem',false);
+    alert('Não foi possível carregar os dados da nuvem. Verifique sua conexão e tente novamente.');
+  }
+}
+
+async function initAuth(){
+  showAuthView('login');
+  const {data,error}=await supabaseClient.auth.getSession();
+  if(error){console.error(error);return;}
+  const recoveryUrl=window.location.search.includes('type=recovery')||window.location.hash.includes('type=recovery');
+  if(recoveryUrl){showAuthView('recovery');$('authScreen').classList.remove('hidden');$('appShell').classList.add('appLocked');}
+  else if(data?.session) await handleSignedIn(data.session); else {$('authScreen').classList.remove('hidden');$('appShell').classList.add('appLocked');}
+  supabaseClient.auth.onAuthStateChange((event,session)=>{
+    setTimeout(()=>{
+      if(event==='PASSWORD_RECOVERY'){showAuthView('recovery');$('authScreen').classList.remove('hidden');$('appShell').classList.add('appLocked');}
+      else if(event==='SIGNED_IN'&&session&&!currentUser) handleSignedIn(session);
+      else if(event==='SIGNED_OUT'){currentUser=null;cloudHydrated=false;$('authScreen').classList.remove('hidden');$('appShell').classList.add('appLocked');showAuthView('login');}
+    },0);
+  });
+}
+
+const KEY='fq_v2_players', HKEY='fq_v2_history', SPORTKEY='fq_v2_sport', FINKEY='fq_v2_finance', GAMECFGKEY='fq_v2_game_config';
+const SPORT_POSITIONS={society:['DEF','MEI','ATQ'],futsal:['Fixo','Ala','Pivo'],fut7:['DEF','LIB','ALA','MEI','ATQ'],campo:['ZAG','LAT','VOL','MEI','ATA']};
+let sportType=localStorage.getItem(SPORTKEY)||'society';
+let players=JSON.parse(localStorage.getItem(KEY)||'[]'), history=JSON.parse(localStorage.getItem(HKEY)||'[]'), finance=JSON.parse(localStorage.getItem(FINKEY)||'{}'), lastDraw=null;
+players=players.map(p=>({...p,pos:normalizePosition(p.pos,sportType),rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false}));
+const $=id=>document.getElementById(id);
+
+function normalizePosition(pos,sport){
+  const p=String(pos||'').trim().toUpperCase();
+  if(SPORT_POSITIONS[sport].includes(pos))return pos;
+  if(sport==='futsal'){ if(p==='DEF')return 'Fixo'; if(p==='MEI')return 'Ala'; if(p==='ATQ')return 'Pivo'; if(p==='LIB'||p==='ALA')return p==='ALA'?'Ala':'Fixo'; if(p==='PIVO')return 'Pivo'; }
+  if(sport==='fut7'){ if(p==='FIXO')return 'DEF'; if(p==='PIVO')return 'ATQ'; if(p==='ALA')return 'ALA'; if(p==='LIB')return 'LIB'; }
+  if(sport==='society'){ if(p==='FIXO'||p==='LIB')return 'DEF'; if(p==='ALA')return 'MEI'; if(p==='PIVO')return 'ATQ'; }
+   if(sport==='campo'){ if(p==='DEF'||p==='ZAG')return 'ZAG'; if(p==='LAT'||p==='ALA')return 'LAT'; if(p==='VOL')return 'VOL'; if(p==='MEI')return 'MEI'; if(p==='ATQ'||p==='ATA')return 'ATA'; if(p==='FIXO')return 'ZAG'; if(p==='PIVO')return 'ATA'; }
+  return SPORT_POSITIONS[sport][0];
+}
+function positionsForUI(){return SPORT_POSITIONS[sportType];}
+function changeSportType(value){
+  if(!SPORT_POSITIONS[value])return;
+  const old=sportType; sportType=value;
+  players=players.map(p=>({...p,pos:normalizePosition(p.pos,value)}));
+  localStorage.setItem(SPORTKEY,sportType); persist();
+  renderSportType();
+}
+function renderSportType(){
+  if($('sportType'))$('sportType').value=sportType;
+  const pos=positionsForUI();
+  const sel=$('newPos'); if(sel)sel.innerHTML=pos.map(x=>`<option>${x}</option>`).join('');
+}
+function sportLabel(){return {society:'Society',futsal:'Futsal',fut7:'FUT7',campo:'Campo'}[sportType]||'Society'}
+
+function todayLocal(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,'0');
+  const day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+
+function loadGameConfig(){
+  const cfg=JSON.parse(localStorage.getItem(GAMECFGKEY)||'{}');
+  if(cfg.teamN!==undefined)$('teamN').value=cfg.teamN;
+  if(cfg.teamSize!==undefined)$('teamSize').value=cfg.teamSize;
+  if(cfg.reserveN!==undefined)$('reserveN').value=cfg.reserveN;
+}
+function saveGameConfig(){
+  localStorage.setItem(GAMECFGKEY,JSON.stringify({
+    teamN:$('teamN').value,
+    teamSize:$('teamSize').value,
+    reserveN:$('reserveN').value
+  }));
+  queueCloudSync();
+}
+
+function configureGameDate(){
+  const today=todayLocal();
+  $('gameDate').value=today;
+  $('gameDate').min=today;
+  $('gameDate').max=today;
+}
+
+function persist(){
+  localStorage.setItem(KEY,JSON.stringify(players));
+  localStorage.setItem(HKEY,JSON.stringify(history));
+  localStorage.setItem(SPORTKEY,sportType);
+  localStorage.setItem(FINKEY,JSON.stringify(finance));
+  renderAll();
+  $('saveState').textContent='● salvo';
+  queueCloudSync();
+}
+
+function go(page){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  $(page).classList.add('active');
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===page));
+  if(page==='partida'){
+    configureGameDate();
+    renderAttendance();
+  }
+  if(page==='financeiro') renderFinance();
+  if(page==='jogadores') renderSportType();
+}
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>go(b.dataset.page));
+
+function add(){
+  let name=$('newName').value.trim(),pos=$('newPos').value,r=Number($('newRating').value);
+  if(!name)return alert('Digite o nome.');
+  const p={id:crypto.randomUUID(),name,pos,rating:Math.max(0,Math.min(5,r)),active:true,present:true};
+  players.push(p);
+  $('newName').value='';
+  persist();
+  syncPlayerNow(p.id);
+}
+
+function update(id,f,v){
+  let p=players.find(x=>x.id===id);
+  if(!p)return;
+  p[f]=f==='rating'?Number(v):v;
+  persist();
+  syncPlayerNow(id);
+}
+
+async function removeP(id){
+  players=players.filter(p=>p.id!==id);
+  persist();
+  if(currentUser&&cloudHydrated){
+    try{
+      setCloudStatus('salvando…',false);
+      const {error}=await supabaseClient.from('players').delete().eq('id',id).eq('user_id',currentUser.id);
+      if(error)throw error;
+      setCloudStatus('sincronizado',true);
+    }catch(e){
+      console.error('Futebol Art. player delete error:',e);
+      setCloudStatus('erro ao salvar — tentando novamente',false);
+      queueCloudSync();
+    }
+  }
+}
+
+function selectAll(v){
+  players.forEach(p=>p.present=v);
+  persist();
+}
+
+function wipe(){
+  if(confirm('Apagar toda a lista de jogadores?')){
+    players=[];
+    persist();
+  }
+}
+
+function csvEscape(value){
+  const s=String(value??'');
+  return /[",\n\r;]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;
+}
+
+function exportPlayers(){
+  if(!players.length)return alert('Não há jogadores cadastrados para exportar.');
+  const rows=[['Nome','Posicao','Nota'],...players.slice().sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'})).map(p=>[p.name,p.pos,Number(p.rating).toFixed(1)])];
+  const csv='\uFEFF'+rows.map(row=>row.map(csvEscape).join(';')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=`futebol-art-jogadores-${todayLocal()}.csv`;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function importPlayers(){
+  $('importFile').value='';
+  $('importFile').click();
+}
+
+function parseCSV(text){
+  text=text.replace(/^\uFEFF/,'');
+  const rows=[];let row=[];let cell='';let quoted=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(quoted){
+      if(ch==='"'){
+        if(text[i+1]==='"'){cell+='"';i++;}
+        else quoted=false;
+      }else cell+=ch;
+    }else{
+      if(ch==='"')quoted=true;
+      else if(ch===';'||ch===','){row.push(cell.trim());cell='';}
+      else if(ch==='\n'){row.push(cell.trim());rows.push(row);row=[];cell='';}
+      else if(ch!=='\r')cell+=ch;
+    }
+  }
+  if(cell.length||row.length){row.push(cell.trim());rows.push(row);}
+  return rows.filter(r=>r.some(v=>v!==''));
+}
+
+function handleImportFile(event){
+  const file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const rows=parseCSV(String(reader.result||''));
+      if(rows.length<2)return alert('O arquivo não possui jogadores para importar.');
+      const header=rows[0].map(v=>v.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim());
+      const nameIdx=header.findIndex(v=>v==='nome'||v==='name');
+      const posIdx=header.findIndex(v=>v==='posicao'||v==='position'||v==='pos');
+      const ratingIdx=header.findIndex(v=>v==='nota'||v==='rating'||v==='nivel'||v==='nivel 0-5');
+      if(nameIdx<0||posIdx<0||ratingIdx<0)return alert('Formato inválido. Use as colunas: Nome;Posicao;Nota');
+
+      const imported=[];let invalid=0;
+      rows.slice(1).forEach(r=>{
+        const name=String(r[nameIdx]||'').trim();
+        const pos=String(r[posIdx]||'').trim().toUpperCase();
+        const ratingText=String(r[ratingIdx]||'').trim().replace(',','.');
+        const rating=Number(ratingText);
+        if(!name||!positionsForUI().includes(pos)||!Number.isFinite(rating)){invalid++;return;}
+        imported.push({id:crypto.randomUUID(),name,pos,rating:Math.max(0,Math.min(5,rating)),active:true,present:true});
+      });
+      if(!imported.length)return alert('Nenhum jogador válido encontrado. Confira Nome, Posicao e Nota.');
+      const action=players.length?confirm(`Foram encontrados ${imported.length} jogador(es).\n\nOK = substituir a lista atual\nCancelar = adicionar à lista atual`):true;
+      if(action){
+        players=imported;
+      }else{
+        players=[...players,...imported];
+      }
+      persist();
+      alert(`${imported.length} jogador(es) importado(s) com sucesso.${invalid?`\n${invalid} linha(s) foram ignoradas por dados inválidos.`:''}`);
+    }catch(e){
+      alert('Não foi possível ler o arquivo. Use um CSV exportado pelo Futebol Art. ou o modelo padrão.');
+    }
+  };
+  reader.readAsText(file,'UTF-8');
+}
+
+function renderPlayers(){
+  const q=(($('playerSearch')?.value)||'').trim().toLocaleLowerCase('pt-BR');
+  let list=players.slice().sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'}));
+  if(q)list=list.filter(p=>p.name.toLocaleLowerCase('pt-BR').includes(q));
+  const pos=positionsForUI();
+  $('playerList').innerHTML=list.length?list.map(p=>`<div class="player"><input value="${esc(p.name)}" onchange="update('${p.id}','name',this.value)"><select onchange="update('${p.id}','pos',this.value)">${pos.map(x=>`<option ${p.pos===x?'selected':''}>${x}</option>`).join('')}</select><input type="number" min="0" max="5" step=".1" value="${p.rating}" onchange="update('${p.id}','rating',this.value)"><label class="presence"><input type="checkbox" ${p.active?'checked':''} onchange="update('${p.id}','active',this.checked)"> Ativo</label><button class="danger" onclick="removeP('${p.id}')">Excluir</button></div>`).join(''):'<div class="empty">Nenhum jogador encontrado.</div>';
+}
+function renderAttendance(){
+  const q=(($('attendanceSearch')?.value)||'').trim().toLocaleLowerCase('pt-BR');
+  let active=players.filter(p=>p.active).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'}));
+  if(q)active=active.filter(p=>p.name.toLocaleLowerCase('pt-BR').includes(q));
+  $('attendance').innerHTML=active.length?active.map(p=>`<label class="presence" style="padding:9px 0;border-bottom:1px solid #edf0f2"><input type="checkbox" ${p.present?'checked':''} onchange="update('${p.id}','present',this.checked)"> ${esc(p.name)} <span class="badge">${p.pos} • ${p.rating.toFixed(1)}</span></label>`).join(''):'<div class="empty">Nenhum jogador encontrado.</div>';
+  updateSetup();
+}
+function updateSetup(){
+  let present=players.filter(p=>p.active&&p.present).length,n=Number($('teamN').value||0),size=Number($('teamSize').value||0),r=Number($('reserveN').value||0),need=n*size+r;
+  $('setupInfo').innerHTML=`Presentes: <b>${present}</b> • Necessários: <b>${need}</b> (${n} times × ${size}) • ${present>=need?'Pronto para sortear.':'Faltam '+(need-present)+' jogador(es).'}`;
+}
+
+$('teamN').oninput=()=>{saveGameConfig();updateSetup()};
+$('teamSize').oninput=()=>{saveGameConfig();updateSetup()};
+$('reserveN').oninput=()=>{saveGameConfig();updateSetup()};
+
+function draw(){
+  const today=todayLocal();
+
+  if($('gameDate').value!==today){
+    configureGameDate();
+    return alert('A partida só pode ser marcada para o dia de hoje.');
+  }
+
+  let n=Number($('teamN').value),size=Number($('teamSize').value),r=Number($('reserveN').value),pool=players.filter(p=>p.active&&p.present);
+
+  if(n<1||n>10)return alert('Escolha entre 1 e 10 times.');
+  if(size<1||size>20)return alert('Escolha entre 1 e 20 jogadores por time.');
+  if(r<0||r>59)return alert('Quantidade de reservas inválida.');
+  if(n*size+r>60)return alert('A partida pode usar no máximo 60 jogadores.');
+  if(pool.length<n*size+r){go('partida');return alert(`São necessários ${n*size+r} presentes. Você marcou ${pool.length}.`)}
+
+  let best=null,bestCost=Infinity,bestReserves=[];
+
+  for(let attempt=0;attempt<2200;attempt++){
+    let shuffled=shuffle(pool);
+    let starters=shuffled.slice(0,n*size);
+    let reservesTry=shuffled.slice(n*size,n*size+r);
+    let ts=Array.from({length:n},()=>[]);
+
+    let order=shuffle(starters).sort((a,b)=>b.rating-a.rating);
+
+    order.forEach(p=>{
+      let candidates=ts.map((t,j)=>({
+        j,
+        score:t.length*100+count(t,p.pos)*18+sum(t)*1.5+Math.random()*8
+      })).sort((a,b)=>a.score-b.score);
+
+      ts[candidates[0].j].push(p);
+    });
+
+    if(ts.some(t=>t.length!==size))continue;
+
+    let av=ts.map(avg);
+    let spread=Math.max(...av)-Math.min(...av);
+    let posPenalty=0;
+
+    ts.forEach(t=>{
+      let counts=positionsForUI().map(x=>count(t,x));
+      posPenalty+=(Math.max(...counts)-Math.min(...counts))*2;
+    });
+
+    let cost=spread*25+posPenalty+Math.random()*1.5;
+
+    if(cost<bestCost){
+      bestCost=cost;
+      best=ts;
+      bestReserves=reservesTry;
+    }
+  }
+
+  if(!best)return alert('Não foi possível montar os times com os jogadores presentes. Verifique a quantidade de jogadores.');
+
+  let teams=best;
+  let reserves=bestReserves;
+
+  lastDraw={date:today,teams,reserves,config:{n,size,r,sport:sportType}};
+  swapMode=false;
+  swapSelection=null;
+  renderResult();
+  go('resultado');
+}
+
+function avg(t){return t.length?sum(t)/t.length:0}
+function sum(a){return a.reduce((s,p)=>s+p.rating,0)}
+function count(t,pos){return t.filter(p=>p.pos===pos).length}
+function shuffle(a){return a.slice().sort(()=>Math.random()-.5)}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+
+
+function sortResultPlayers(list){
+  const posOrder = SPORT_POSITIONS[lastDraw?.config?.sport] || positionsForUI();
+  return [...list].sort((a,b)=>{
+    const pa=posOrder.indexOf(a.pos), pb=posOrder.indexOf(b.pos);
+    if(pa!==pb) return pa-pb;
+    return (a.num??999)-(b.num??999);
+  });
+}
+
+function renderResult(){
+  if(!lastDraw)return;
+
+  $('resultMsg').className='notice ok';
+  $('resultMsg').innerHTML=`${lastDraw.config.n} times • ${lastDraw.config.size} jogadores/time • ${lastDraw.reserves.length} reserva(s) • diferença entre médias: <b>${(Math.max(...lastDraw.teams.map(avg))-Math.min(...lastDraw.teams.map(avg))).toFixed(2)}</b>`;
+
+  $('resultCard').classList.toggle('swapMode',swapMode);
+  $('swapHint').classList.toggle('hidden',!swapMode);
+  $('swapHintText').textContent=swapSelection
+    ? `🔄 ${esc(swapSelection.player.name)} selecionado. Agora clique no jogador do outro time para trocar.`
+    : '🔄 Modo substituir ativo: selecione o jogador inicial e depois o jogador final.';
+
+  $('teams').innerHTML=lastDraw.teams.map((t,i)=>{
+    const ordered=sortResultPlayers(t);
+    const posOrder=SPORT_POSITIONS[lastDraw.config.sport]||positionsForUI();
+    return `<div class="team"><h3>Time ${i+1}</h3><div class="meta">Média ${avg(t).toFixed(2)} • ${posOrder.map(x=>x+' '+count(t,x)).join(' • ')}</div><ol>${ordered.map(p=>{
+      const selected=swapSelection?.teamIndex===i&&swapSelection?.player?.id===p.id;
+      const cls=swapMode?'swapPlayer'+(selected?' selected':''):'';
+      const click=swapMode?`onclick="selectSwapPlayer(${i},'${String(p.id).replace(/'/g,"\\'")}')"`:'';
+      return `<li class="${cls}" ${click}>${esc(p.name)} <span class="badge">${p.pos}</span></li>`;
+    }).join('')}</ol></div>`;
+  }).join('')+(lastDraw.reserves.length?`<div class="team"><h3>🪑 Reservas</h3><ol>${sortResultPlayers(lastDraw.reserves).map(p=>`<li>${esc(p.name)} <span class="badge">${p.pos}</span></li>`).join('')}</ol></div>`:'');
+  $('resultActions').style.display='flex';
+}
+
+function toggleSwap(){
+  if(!lastDraw)return;
+  swapMode=!swapMode;
+  swapSelection=null;
+  renderResult();
+}
+
+function cancelSwap(){
+  swapMode=false;
+  swapSelection=null;
+  renderResult();
+}
+
+function selectSwapPlayer(teamIndex,playerId){
+  if(!swapMode||!lastDraw)return;
+  const player=lastDraw.teams[teamIndex]?.find(p=>p.id===playerId);
+  if(!player)return;
+
+  if(!swapSelection){
+    swapSelection={teamIndex,player};
+    renderResult();
+    return;
+  }
+
+  if(swapSelection.teamIndex===teamIndex&&swapSelection.player.id===player.id){
+    swapSelection=null;
+    renderResult();
+    return;
+  }
+
+  const fromTeam=lastDraw.teams[swapSelection.teamIndex];
+  const toTeam=lastDraw.teams[teamIndex];
+  const fromIndex=fromTeam.findIndex(p=>p.id===swapSelection.player.id);
+  const toIndex=toTeam.findIndex(p=>p.id===player.id);
+  if(fromIndex<0||toIndex<0){swapSelection=null;renderResult();return;}
+
+  [fromTeam[fromIndex],toTeam[toIndex]]=[toTeam[toIndex],fromTeam[fromIndex]];
+  swapSelection=null;
+  renderResult();
+}
+
+function openShare(){$('shareModal').classList.remove('hidden')}
+function closeShare(){$('shareModal').classList.add('hidden')}
+
+function shareTextLines(){
+  let lines=[`FUTEBOL ART.`,`Data: ${new Date(lastDraw.date+'T12:00:00').toLocaleDateString('pt-BR')}`,``];
+  lastDraw.teams.forEach((t,i)=>{
+    lines.push(`TIME ${i+1}  •  Média ${avg(t).toFixed(2)}`);
+    t.forEach((p,j)=>lines.push(`${j+1}. ${p.name} • ${p.pos}`));
+    lines.push(``);
+  });
+  if(lastDraw.reserves.length){
+    lines.push(`RESERVAS`);
+    lastDraw.reserves.forEach((p,i)=>lines.push(`${i+1}. ${p.name} • ${p.pos}`));
+  }
+  return lines;
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+}
+
+function makeResultCanvas(){
+  const cols=4, gap=12, margin=18, outerPad=16, cardW=0;
+  const teams=lastDraw.teams.slice();
+  const cards=teams.concat(lastDraw.reserves.length?[{reserves:true,players:lastDraw.reserves}]:[]);
+  const width=1120;
+  const contentW=width-(margin*2);
+  const gridW=contentW-(outerPad*2);
+  const cw=(gridW-gap*(cols-1))/cols;
+
+  const titleH=42, noticeH=58, noticeGap=16;
+  const cardHeights=cards.map(card=>{
+    const list=card.reserves?card.players:sortResultPlayers(card);
+    return Math.max(116, (card.reserves?70:82) + list.length*29);
+  });
+  const rows=Math.ceil(cards.length/cols);
+  const rowHeights=[];
+  for(let r=0;r<rows;r++){
+    rowHeights[r]=Math.max(...cardHeights.slice(r*cols,(r+1)*cols));
+  }
+
+  const gridH=rowHeights.reduce((a,b)=>a+b,0)+Math.max(0,rows-1)*gap;
+  const outerH=outerPad+titleH+noticeGap+noticeH+16+gridH+outerPad;
+  const height=margin*2+outerH;
+
+  const c=document.createElement('canvas');
+  c.width=Math.ceil(width*2); c.height=Math.ceil(height*2);
+  const ctx=c.getContext('2d');
+  ctx.scale(2,2);
+  ctx.fillStyle='#f4f6f8';ctx.fillRect(0,0,width,height);
+
+  const ox=margin, oy=margin, ow=contentW, oh=outerH;
+  roundRect(ctx,ox,oy,ow,oh,14);
+  ctx.fillStyle='#ffffff';ctx.fill();
+  ctx.strokeStyle='#dfe5ea';ctx.lineWidth=1;ctx.stroke();
+
+  ctx.fillStyle='#17212b';
+  ctx.font='700 24px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+  ctx.fillText('Resultado do Sorteio',ox+outerPad,oy+outerPad+25);
+
+  const n=lastDraw.config.n, size=lastDraw.config.size, reserveCount=lastDraw.reserves.length;
+  const diff=(Math.max(...lastDraw.teams.map(avg))-Math.min(...lastDraw.teams.map(avg))).toFixed(2);
+  const nx=ox+outerPad, ny=oy+outerPad+titleH, nw=gridW, nh=noticeH;
+  roundRect(ctx,nx,ny,nw,nh,10);
+  ctx.fillStyle='#edf8f1';ctx.fill();
+  ctx.strokeStyle='#b9dfc7';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle='#17212b';
+  ctx.font='13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+  ctx.fillText(`${n} times • ${size} jogadores/time • ${reserveCount} reserva(s) • diferença entre médias:`,nx+12,ny+25);
+  ctx.font='700 13px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+  const prefix=`${n} times • ${size} jogadores/time • ${reserveCount} reserva(s) • diferença entre médias:`;
+  ctx.fillText(diff,nx+12+ctx.measureText(prefix).width+4,ny+25);
+
+  let idx=0, gy=ny+nh+16;
+  for(let r=0;r<rows;r++){
+    let gx=nx;
+    for(let col=0;col<cols && idx<cards.length;col++,idx++){
+      const card=cards[idx];
+      const list=card.reserves?sortResultPlayers(card.players):sortResultPlayers(card);
+      const ch=rowHeights[r];
+
+      roundRect(ctx,gx,gy,cw,ch,13);
+      ctx.fillStyle='#ffffff';ctx.fill();
+      ctx.strokeStyle='#dfe5ea';ctx.lineWidth=1;ctx.stroke();
+
+      ctx.fillStyle='#17212b';
+      ctx.font='700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+      ctx.fillText(card.reserves?'🪑 Reservas':`Time ${idx+1}`,gx+14,gy+31);
+
+      let ly=gy+53;
+      if(!card.reserves){
+        const posOrder=SPORT_POSITIONS[lastDraw.config.sport]||positionsForUI();
+        const meta=`Média ${avg(card).toFixed(2)} • ${posOrder.map(x=>x+' '+count(card,x)).join(' • ')}`;
+        ctx.fillStyle='#66737f';
+        ctx.font='12px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+        ctx.fillText(meta,gx+14,ly);
+        ly+=27;
+      }else{
+        ly+=8;
+      }
+
+      list.forEach((p,j)=>{
+        ctx.fillStyle='#17212b';
+        ctx.font='14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+        const num=`${j+1}. `;
+        ctx.fillText(num,gx+18,ly);
+        const nx2=gx+18+ctx.measureText(num).width;
+
+        const badgeText=p.pos;
+        ctx.font='800 9px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+        const bw=ctx.measureText(badgeText).width+10;
+
+        ctx.font='14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+        const maxName=cw-32-(nx2-gx)-bw-8;
+        let name=p.name;
+        if(ctx.measureText(name).width>maxName){
+          while(ctx.measureText(name+'…').width>maxName && name.length>1)name=name.slice(0,-1);
+          name+='…';
+        }
+        ctx.fillText(name,nx2,ly);
+
+        const badgeX=Math.min(gx+cw-14-bw,nx2+ctx.measureText(name).width+8);
+        ctx.beginPath();ctx.roundRect(badgeX,ly-12,bw,16,8);
+        ctx.fillStyle='#eef2f6';ctx.fill();
+        ctx.fillStyle='#4d5964';
+        ctx.font='800 9px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial';
+        ctx.fillText(badgeText,badgeX+5,ly);
+        ly+=29;
+      });
+      gx+=cw+gap;
+    }
+    gy+=rowHeights[r]+gap;
+  }
+  return c;
+}
+function asciiPdfText(s){
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^\x20-\x7E]/g,'?').replace(/([\\()])/g,'\\$1');
+}
+
+function makePdfBlob(){
+  let lines=shareTextLines().map(asciiPdfText),width=595,height=842,margin=42,lineH=18,pageLines=Math.floor((height-70)/lineH),pages=[];
+  for(let i=0;i<lines.length;i+=pageLines)pages.push(lines.slice(i,i+pageLines));
+
+  let objs=[],pageNums=[];
+  objs.push(null);
+  objs.push('<< /Type /Pages /Kids [] /Count 0 >>');
+  objs.push('<< /Type /Catalog /Pages 2 0 R >>');
+  objs.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>');
+
+  pages.forEach((pg,pi)=>{
+    let content='BT\n/F1 14 Tf\n',y=height-50;
+    pg.forEach((line,idx)=>{
+      let size=(idx===0&&pi===0)?20:11;
+      content+=`/F1 ${size} Tf\n1 0 0 1 ${margin} ${y} Tm (${line}) Tj\n`;
+      y-=lineH;
+    });
+    content+='ET';
+
+    let streamObj=objs.length+1;
+    objs.push(`<< /Length ${content.length} >>\nstream\n${content}\nendstream`);
+    let pageObj=objs.length+1;
+    objs.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /Font << /F1 4 0 R >> >> /Contents ${streamObj} 0 R >>`);
+    pageNums.push(pageObj);
+  });
+
+  objs[1]=`<< /Type /Pages /Kids [${pageNums.map(n=>n+' 0 R').join(' ')}] /Count ${pageNums.length} >>`;
+
+  let pdf='%PDF-1.4\n',offsets=[0];
+
+  for(let i=1;i<objs.length;i++){
+    offsets[i]=pdf.length;
+    pdf+=`${i} 0 obj\n${objs[i]}\nendobj\n`;
+  }
+
+  let xref=pdf.length;
+  pdf+=`xref\n0 ${objs.length}\n0000000000 65535 f \n`;
+  for(let i=1;i<objs.length;i++)pdf+=String(offsets[i]).padStart(10,'0')+' 00000 n \n';
+  pdf+=`trailer\n<< /Size ${objs.length} /Root 3 0 R >>\nstartxref\n${xref}\n%%EOF`;
+
+  return new Blob([pdf],{type:'application/pdf'});
+}
+
+async function shareResult(type){
+  if(!lastDraw)return;
+  closeShare();
+  let file;
+
+  if(type==='image'){
+    let blob=await new Promise(resolve=>makeResultCanvas().toBlob(resolve,'image/png'));
+    file=new File([blob],`futebol-art-${lastDraw.date}.png`,{type:'image/png'});
+  }else{
+    let blob=makePdfBlob();
+    file=new File([blob],`futebol-art-${lastDraw.date}.pdf`,{type:'application/pdf'});
+  }
+
+  if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({title:'Futebol Art.',text:'Resultado do sorteio',files:[file]});
+    }catch(e){
+      if(e.name!=='AbortError')alert('Não foi possível abrir o compartilhamento.');
+    }
+  }else{
+    let url=URL.createObjectURL(file),a=document.createElement('a');
+    a.href=url;a.download=file.name;a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    alert('O compartilhamento de arquivos não está disponível neste navegador. O arquivo foi gerado para você salvar e compartilhar manualmente.');
+  }
+}
+
+function saveGame(){
+  if(!lastDraw)return;
+  swapMode=false;
+  swapSelection=null;
+  history.unshift({id:crypto.randomUUID(),date:lastDraw.date,teams:lastDraw.teams,reserves:lastDraw.reserves,config:lastDraw.config});
+  history=history.slice(0,50);
+  persist();
+  alert('Partida salva no histórico!');
+  go('historico');
+}
+
+function clearHistory(){
+  if(!history.length)return alert('O histórico já está vazio.');
+  if(!confirm('Tem certeza que deseja apagar todo o histórico de partidas?'))return;
+  history=[];
+  persist();
+  alert('Histórico limpo com sucesso!');
+}
+
+function renderHistory(){
+  if(!history.length){
+    $('history').innerHTML='<div class="empty">Nenhuma partida salva ainda.</div>';
+    return;
+  }
+  $('history').innerHTML=history.map(g=>{
+    const teams=Array.isArray(g.teams)?g.teams:[];
+    const reserves=Array.isArray(g.reserves)?g.reserves:[];
+    const composition=teams.map((t,i)=>`<div class="history-team"><b>Time ${i+1}</b><div>${t.map(p=>esc(p.name)).join(' • ')}</div></div>`).join('');
+    const reserveCard=reserves.length?`<div class="history-team"><b>🪑 Reservas</b><div>${reserves.map(p=>esc(p.name)).join(' • ')}</div></div>`:'';
+    return `<div class="history-item"><b>⚽ ${new Date(g.date+'T12:00:00').toLocaleDateString('pt-BR')} — ${g.config.n} times × ${g.config.size||6}</b><small>${teams.flat().length} jogadores nos times • ${reserves.length} reserva(s)</small><div class="history-composition">${composition}${reserveCard}</div></div>`;
+  }).join('');
+}
+function ensureFinance(){
+  players.forEach(p=>{ if(!finance[p.id])finance[p.id]={type:'Mensal',status:'Não pago',value:'',paymentDate:''}; });
+  Object.keys(finance).forEach(id=>{if(!players.some(p=>p.id===id))delete finance[id];});
+}
+
+function getFilteredFinance(){
+  ensureFinance();
+  const playerQ=(($('financePlayerFilter')?.value)||'').trim().toLocaleLowerCase('pt-BR');
+  const presenceQ=$('financePresenceFilter')?.value||'';
+  const typeQ=$('financeTypeFilter')?.value||'';
+  const statusQ=$('financeStatusFilter')?.value||'';
+  const valueQ=(($('financeValueFilter')?.value)||'').trim().toLocaleLowerCase('pt-BR');
+  const dateQ=$('financeDateFilter')?.value||'';
+
+  let list=players.slice().sort((a,b)=>a.name.localeCompare(b.name,'pt-BR',{sensitivity:'base'}));
+  return list.filter(p=>{
+    const f=finance[p.id]||{};
+    const nameOk=!playerQ||p.name.toLocaleLowerCase('pt-BR').includes(playerQ);
+    const presenceOk=!presenceQ||(p.present!==false? 'Presente':'Não presente')===presenceQ;
+    const typeOk=!typeQ||f.type===typeQ;
+    const statusOk=!statusQ||f.status===statusQ;
+    const value=String(f.value||'').toLocaleLowerCase('pt-BR');
+    const valueOk=!valueQ||value.includes(valueQ);
+    const dateOk=!dateQ||f.paymentDate===dateQ;
+    return nameOk&&presenceOk&&typeOk&&statusOk&&valueOk&&dateOk;
+  });
+}
+
+function renderFinance(){
+  ensureFinance();
+  const list=getFilteredFinance();
+  $('financeList').innerHTML=list.length?list.map(p=>{
+    const f=finance[p.id]||{};
+    const paid=f.status==='Pago';
+    const present=p.present!==false;
+    return `<tr>
+      <td><b>${esc(p.name)}</b></td>
+      <td><span class="presenceTag ${present?'yes':'no'}">${present?'Presente':'Não presente'}</span></td>
+      <td><select onchange="updateFinance('${p.id}','type',this.value)"><option ${f.type==='Mensal'?'selected':''}>Mensal</option><option ${f.type==='Avulso'?'selected':''}>Avulso</option></select></td>
+      <td><select class="statusSelect ${paid?'paid':'unpaid'}" onchange="updateFinance('${p.id}','status',this.value)"><option ${paid?'selected':''}>Pago</option><option ${!paid?'selected':''}>Não pago</option></select></td>
+      <td><input class="moneyInput" inputmode="decimal" placeholder="R$ 0,00" value="${esc(f.value||'')}" onchange="updateFinance('${p.id}','value',this.value)"></td><td><input type="date" value="${esc(f.paymentDate||'')}" onchange="updateFinance('${p.id}','paymentDate',this.value)"></td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="6" class="empty">Nenhum jogador encontrado com os filtros atuais.</td></tr>';
+  const allFiltered=getFilteredFinance();
+  let paid=0, unpaid=0;
+  allFiltered.forEach(p=>{
+    const f=finance[p.id]||{};
+    const raw=String(f.value||'').trim().replace(/[R$\s]/g,'').replace(/\./g,'').replace(',','.');
+    const n=Number(raw);
+    if(Number.isFinite(n)&&raw!==''){
+      if(f.status==='Pago') paid+=n;
+      else unpaid+=n;
+    }
+  });
+  $('financeTotalPaid').textContent=paid.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  $('financeTotalUnpaid').textContent=unpaid.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+  localStorage.setItem(FINKEY,JSON.stringify(finance));
+}
+
+function updateFinance(id,field,value){
+  if(!finance[id])finance[id]={type:'Mensal',status:'Não pago',value:'',paymentDate:''};
+  finance[id][field]=value;
+  localStorage.setItem(FINKEY,JSON.stringify(finance));
+  renderFinance();
+  queueCloudSync();
+}
+
+function resetFinanceData(){
+  if(!confirm('Resetar os dados financeiros inseridos de todos os jogadores?\\n\\nIsso não apaga jogadores nem altera a presença. Tipo, status e valor serão restaurados.'))return;
+  players.forEach(p=>{finance[p.id]={type:'Mensal',status:'Não pago',value:'',paymentDate:''};});
+  localStorage.setItem(FINKEY,JSON.stringify(finance));
+  renderFinance();
+  queueCloudSync();
+}
+
+function formatFinanceValue(v){
+  const raw=String(v||'').trim().replace(/[R$\s]/g,'').replace(/\./g,'').replace(',','.');
+  const n=Number(raw);
+  return Number.isFinite(n)&&raw!=='' ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}) : (v||'—');
+}
+
+async function shareFinanceHistory(){
+  const list=getFilteredFinance();
+  if(!list.length)return alert('Não há jogadores no histórico com os filtros atuais.');
+  const filters=[];
+  const pq=$('financePlayerFilter')?.value.trim(); const prq=$('financePresenceFilter')?.value; const tq=$('financeTypeFilter')?.value;
+  const sq=$('financeStatusFilter')?.value; const vq=$('financeValueFilter')?.value.trim();
+  if(pq)filters.push(`Jogador: ${pq}`); if(prq)filters.push(`Presença: ${prq}`); if(tq)filters.push(`Tipo: ${tq}`); if(sq)filters.push(`Status: ${sq}`); if(vq)filters.push(`Valor: ${vq}`); const dq=$('financeDateFilter')?.value; if(dq)filters.push(`Data: ${new Date(dq+'T00:00:00').toLocaleDateString('pt-BR')}`);
+
+  const lines=[
+    '⚽ FUTEBOL ART.',
+    '💰 HISTÓRICO DE PAGAMENTOS',
+    `Data: ${new Date().toLocaleDateString('pt-BR')}`,
+    filters.length?`Filtros: ${filters.join(' • ')}`:'Filtros: Todos',
+    '',
+    ...list.map((p,i)=>{
+      const f=finance[p.id]||{};
+      return `${i+1}. ${p.name} | ${p.present!==false?'Presente':'Não presente'} | ${f.type||'Mensal'} | ${f.status||'Não pago'} | ${formatFinanceValue(f.value)} | ${f.paymentDate?new Date(f.paymentDate+'T00:00:00').toLocaleDateString('pt-BR'):'—'} |`;
+    })
+  ];
+  const textToShare=lines.join('\n');
+
+  if(navigator.share){
+    try{
+      await navigator.share({title:'Histórico de pagamentos — Futebol Art.',text:textToShare});
+      return;
+    }catch(e){
+      if(e&&e.name==='AbortError')return;
+    }
+  }
+
+  const blob=new Blob([textToShare],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=`futebol-art-financeiro-${todayLocal()}.txt`;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  alert('O histórico foi preparado para compartilhamento.');
+}
+
+function renderAll(){
+  renderPlayers();
+  renderAttendance();
+  renderHistory();
+  renderSportType();
+  if($('financeList')) renderFinance();
+  $('sPlayers').textContent=players.length;
+  $('sActive').textContent=players.filter(p=>p.active).length;
+  $('sGames').textContent=history.length;
+  $('sPresent').textContent=players.filter(p=>p.active&&p.present).length;
+}
+
+loadGameConfig();
+configureGameDate();
+renderSportType();
+renderAll();
+initAuth();
+</script>
+
+</div>
+<div id="migrationModal" class="modal hidden"><div class="modalBox migrationBox"><h3>Encontramos seus dados deste aparelho 📦</h3><p>Essa conta ainda não possui dados na nuvem, mas este dispositivo já tem jogadores, histórico ou financeiro salvos. Quer enviar esses dados para sua conta e deixá-los disponíveis no PC e no celular?</p><div class="actions"><button class="success" onclick="importLocalToCloud()">☁️ Importar dados atuais</button><button class="secondary" onclick="startCloudEmpty()">Começar vazio</button></div></div></div>
+</body>
+</html>
