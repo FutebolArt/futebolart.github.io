@@ -471,12 +471,13 @@ function canManageUsers(){return !!currentProfile&&['owner','admin'].includes(cu
 function isOwner(){return currentProfile?.role==='owner'&&currentProfile.active;}
 async function loadAdminUsers(){
   const box=$('adminUsersCard');if(!box||!canManageUsers())return;
-  const body=$('adminUsersList');if(body)body.innerHTML='<tr><td colspan="5">Carregando usuários…</td></tr>';
-  hideSettingsMsg('adminUsersMsg');
-  try{
+ const body=$('adminUsersList');if(body)body.innerHTML='<tr><td colspan="5">Carregando usuários…</td></tr>';
+hideSettingsMsg('adminUsersMsg');
+let users=[];
+try{
     const {data,error}=await supabaseClient.from('profiles').select('id,name,email,role,active,created_at').order('name');
     if(error)throw error;
-    const users=data||[];
+    users=data||[];
     if(!users.length){body.innerHTML='<tr><td colspan="5">Nenhum usuário encontrado.</td></tr>';return;}
     body.innerHTML=users.map(u=>{
       const self=u.id===currentUser.id;
