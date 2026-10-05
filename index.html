@@ -946,7 +946,7 @@ function startCloudEmpty(){ $('migrationModal').classList.add('hidden');players=
 
 async function handleSignedIn(session){
   currentUser=session.user;
-  await checkAccess();
+  try{await checkAccess();}catch(e){const msg=e?.message||'Não foi possível validar seu acesso.';try{await supabaseClient.auth.signOut();}catch(_){}$('appShell').classList.add('appLocked');$('authScreen').classList.remove('hidden');showAuthView('login');setTimeout(()=>authMsg('authError',msg),50);return;}
   renderLoggedUser();
   $('authScreen').classList.add('hidden');
   $('appShell').classList.remove('appLocked');
