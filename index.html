@@ -1033,7 +1033,7 @@ let financeTab='pagamentos';
 
 normalizeHistoryNumbers();
 players=players.map(p=>({...p,pos:normalizePosition(p.pos,sportType),rating:Number(p.rating)||0,active:p.active!==false,present:p.present!==false}));
-const $=id=>document.getElementById(id);
+function $(id){return document.getElementById(id);}
 
 function normalizePosition(pos,sport){
   const p=String(pos||'').trim().toUpperCase();
